@@ -12,7 +12,7 @@ export default function CardGames() {
 
 
                 <div className="w-full flex flex-col p-2 gap-4">
-                    <p className="font-semibold text-blue-400 text-2xl">Adivina Puerro</p>
+                    <p className="font-semibold text-blue-400 text-2xl">Adivina el jugador por la</p>
                     <div className="rounded-2xl bg-green-600 max-w-30 h-4 flex justify-center items-center font-medium text-green-200">Fácil</div>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit harum in dicta officiis, natus quae mollitia a explicabo officia perspiciatis rem animi error ipsa..</p>
                 </div>

@@ -1,5 +1,6 @@
 'use client'
 import { useState } from "react";
+import Link from "next/link";
 
 
 export default function Navbar() {
@@ -14,9 +15,7 @@ export default function Navbar() {
             <ul className="hidden md:flex space-x-10 mr-10 fixed p-6 top-4 right-4 z-30 bg-gradient-to-r from-gray-800/30 to-gray-900/50
         backdrop-blur-md rounded-bl-4xl">
                 <li>
-                    <a href="#experiencia" className="text-white hover:text-blue-400">
-                        Inicio
-                    </a>
+                    <Link href="/" className="text-white hover:text-blue-400">Inicio</Link>
                 </li>
                 <li>
                     <a href="#tecnologias" className="text-white hover:text-blue-400">
