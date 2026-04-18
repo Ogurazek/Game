@@ -137,7 +137,6 @@ export default function Home() {
           <MatchProgress
             matchResults={matchResults}
             currentMatchIndex={currentMatchIndex}
-            status="between_matches"
           />
 
           {/* Resultado del partido */}
@@ -281,7 +280,7 @@ export default function Home() {
   if (!match) return null
 
   return (
-    <Background>
+    <Background stats={stats}>
       <div className="flex flex-col gap-5 w-full max-w-md">
 
         <div className="flex items-center justify-between">
@@ -299,7 +298,6 @@ export default function Home() {
         <MatchProgress
           matchResults={matchResults}
           currentMatchIndex={currentMatchIndex}
-          status="playing"
         />
 
         <ClueDisplay match={match} difficulty={currentDifficulty} />

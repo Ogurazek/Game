@@ -51,11 +51,6 @@ export const DIFFICULTY_ORDER: Difficulty[] = ['easy', 'medium', 'hard', 'expert
 
 export const UNLOCK_THRESHOLD = 3   // partidos ganados mínimos para desbloquear el siguiente nivel
 
-export const PREV_DIFFICULTY: Partial<Record<Difficulty, Difficulty>> = {
-  medium: 'easy',
-  hard:   'medium',
-  expert: 'hard',
-}
 
 // Qué pistas se muestran según dificultad
 export const CLUES_BY_DIFFICULTY: Record<Difficulty, {

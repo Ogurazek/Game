@@ -1,6 +1,6 @@
 'use client'
 
-import { Difficulty, MAX_ATTEMPTS, UNLOCK_THRESHOLD, PREV_DIFFICULTY, MATCHES_PER_LEVEL } from '@/types/game'
+import { Difficulty, MAX_ATTEMPTS, UNLOCK_THRESHOLD, MATCHES_PER_LEVEL } from '@/types/game'
 import { GameMode } from '@/hooks/useGame'
 import { useState } from 'react'
 import Image from 'next/image'

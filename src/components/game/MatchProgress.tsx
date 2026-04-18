@@ -3,10 +3,9 @@ import { MatchResult, MATCHES_PER_LEVEL } from '@/types/game'
 interface Props {
   matchResults:      MatchResult[]
   currentMatchIndex: number
-  status:            'playing' | 'between_matches'
 }
 
-export default function MatchProgress({ matchResults, currentMatchIndex, status }: Props) {
+export default function MatchProgress({ matchResults, currentMatchIndex }: Props) {
   return (
     <div className="flex flex-col gap-2 w-full">
 
