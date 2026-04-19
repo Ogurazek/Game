@@ -36,7 +36,7 @@ export default function ClueDisplay({ match, difficulty }: Props) {
                 key={i}
                 className="flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium bg-white/10 text-white/80 border border-white/10"
               >
-                <Image src="/balon.png" alt="gol" width={16} height={16} />
+                <Image src="/balon.png" alt="gol" width={24} height={24} />
                 {scorer}
               </span>
             ))}

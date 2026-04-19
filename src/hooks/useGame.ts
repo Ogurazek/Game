@@ -16,7 +16,7 @@ import {
   UNLOCK_THRESHOLD,
   calcScore,
 } from '@/types/game'
-import { getMatchesForLevel, getMatchesForDailyLevel } from '@/data/matches'
+import { getMatchesForLevel } from '@/data/matches'
 
 // ─── Validación ──────────────────────────────────────────────────────────────
 
@@ -40,8 +40,13 @@ function validateGuess(guess: GuessFields, match: Match, difficulty: Difficulty)
     const rHome = normalize(match.homeTeam)
     const rAway = normalize(match.awayTeam)
 
-    fb.homeTeam = gHome === rHome ? 'correct' : gHome === rAway ? 'partial' : 'incorrect'
-    fb.awayTeam = gAway === rAway ? 'correct' : gAway === rHome ? 'partial' : 'incorrect'
+    if (match.neutral) {
+      fb.homeTeam = gHome === rHome || gHome === rAway ? 'correct' : 'incorrect'
+      fb.awayTeam = gAway === rAway || gAway === rHome ? 'correct' : 'incorrect'
+    } else {
+      fb.homeTeam = gHome === rHome ? 'correct' : gHome === rAway ? 'partial' : 'incorrect'
+      fb.awayTeam = gAway === rAway ? 'correct' : gAway === rHome ? 'partial' : 'incorrect'
+    }
   }
 
   if (activeFields.includes('year')) {
@@ -99,7 +104,7 @@ function saveStats(stats: PlayerStats) {
 
 const EMPTY_GUESS: GuessFields = { homeTeam: '', awayTeam: '', year: '', competition: '' }
 
-export type GameMode   = 'daily' | 'random'
+export type GameMode = 'random'
 export type GameStatus = 'idle' | 'playing' | 'between_matches' | 'level_done'
 
 interface GameState {
@@ -135,9 +140,7 @@ export function useGame() {
   useEffect(() => { setStats(loadStats()) }, [])
 
   const startGame = useCallback((difficulty: Difficulty, mode: GameMode = 'random') => {
-    const queue = mode === 'daily'
-      ? getMatchesForDailyLevel(difficulty)
-      : getMatchesForLevel(difficulty, true)
+    const queue = getMatchesForLevel(difficulty, true)
 
     setState({
       difficulty,

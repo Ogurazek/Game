@@ -21,6 +21,13 @@ const DIFFICULTY_LABEL = {
 function Background({ children, stats }: { children: React.ReactNode, stats: import('@/types/game').PlayerStats }) {
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-[#020613]">
+      <Image
+        src="/PuerroxGameLogo.png"
+        alt="PuerroXGames"
+        width={280}
+        height={280}
+        className="fixed top-4 left-4 z-30 rounded-lg"
+      />
       <AboutSheet stats={stats} />
       <div
         className="pointer-events-none absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full opacity-20"
@@ -65,7 +72,7 @@ function MatchReveal({ match }: { match: { homeTeam: string; awayTeam: string; s
       <div className="flex flex-wrap gap-1.5">
         {match.scorers.map((s, i) => (
           <span key={i} className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-white/10 text-white/50">
-            <Image src="/balon.png" alt="gol" width={12} height={12} />
+            <Image src="/balon.png" alt="gol" width={24} height={24} />
             {s}
           </span>
         ))}
@@ -103,21 +110,19 @@ export default function Home() {
             onStart={startGame}
             unlockedDifficulties={stats.unlockedDifficulties ?? ['easy']}
           />
-          {stats.levelsPlayed > 0 && (
-            <div className="flex gap-4 w-full">
-              {[
-                { label: 'Puntaje total', value: stats.totalScore.toLocaleString() },
-                { label: 'Niveles',       value: stats.levelsPlayed },
-                { label: 'Perfectos',     value: stats.levelsPerfect },
-              ].map(({ label, value }) => (
-                <div key={label} className="flex-1 flex flex-col items-center gap-1 p-3
-                  rounded-2xl bg-white/[0.04] border border-white/10">
-                  <span className="text-lg font-black text-white">{value}</span>
-                  <span className="text-[10px] uppercase tracking-widest text-white/30">{label}</span>
-                </div>
-              ))}
-            </div>
-          )}
+          <div className="flex gap-4 w-full">
+            {[
+              { label: 'Puntaje total', value: stats.totalScore.toLocaleString() },
+              { label: 'Niveles',       value: stats.levelsPlayed },
+              { label: 'Perfectos',     value: stats.levelsPerfect },
+            ].map(({ label, value }) => (
+              <div key={label} className="flex-1 flex flex-col items-center gap-1 p-3
+                rounded-2xl bg-white/[0.04] border border-white/10">
+                <span className="text-lg font-black text-white">{value}</span>
+                <span className="text-[10px] uppercase tracking-widest text-white/30">{label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </Background>
     )
@@ -306,7 +311,7 @@ export default function Home() {
         {attempts.length > 0 && (
           <div className="flex flex-col gap-2">
             {attempts.map((attempt, i) => (
-              <FeedbackRow key={i} attempt={attempt} difficulty={currentDifficulty} index={i} />
+              <FeedbackRow key={i} attempt={attempt} difficulty={currentDifficulty} index={i} neutral={match.neutral} />
             ))}
           </div>
         )}
@@ -316,6 +321,7 @@ export default function Home() {
           currentGuess={currentGuess}
           onFieldChange={setGuessField}
           onSubmit={submitGuess}
+          neutral={match.neutral}
         />
 
       </div>

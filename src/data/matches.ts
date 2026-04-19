@@ -13,6 +13,7 @@ export const matches: Match[] = [
     competition: 'Mundial',
     score: '3-3',
     scorers: ['Di María', 'Messi', 'Messi', 'Mbappé', 'Mbappé', 'Mbappé'],
+    neutral: true,
   },
   {
     id: 'e2',
@@ -24,6 +25,7 @@ export const matches: Match[] = [
     competition: 'Mundial',
     score: '1-0',
     scorers: ['Götze'],
+    neutral: true,
   },
   {
     id: 'e3',
@@ -35,6 +37,7 @@ export const matches: Match[] = [
     competition: 'Mundial',
     score: '4-2',
     scorers: ['Mandžukić', 'Griezmann', 'Pogba', 'Mbappé', 'Perišić', 'Mandžukić'],
+    neutral: true,
   },
   {
     id: 'e4',
@@ -57,6 +60,7 @@ export const matches: Match[] = [
     competition: 'Champions League',
     score: '3-3',
     scorers: ['Maldini', 'Crespo', 'Crespo', 'Gerrard', 'Smicer', 'Alonso'],
+    neutral: true,
   },
 
   // ── MEDIO — finales y partidos célebres ───────────────────────────────────
@@ -70,6 +74,7 @@ export const matches: Match[] = [
     competition: 'Champions League',
     score: '3-1',
     scorers: ['Rakitic', 'Morata', 'Suárez', 'Neymar'],
+    neutral: true,
   },
   {
     id: 'm2',
@@ -81,6 +86,7 @@ export const matches: Match[] = [
     competition: 'Mundial',
     score: '1-0',
     scorers: ['Iniesta'],
+    neutral: true,
   },
   {
     id: 'm3',
@@ -92,6 +98,7 @@ export const matches: Match[] = [
     competition: 'Champions League',
     score: '2-0',
     scorers: ['Salah', 'Origi'],
+    neutral: true,
   },
   {
     id: 'm4',
@@ -103,6 +110,7 @@ export const matches: Match[] = [
     competition: 'Champions League',
     score: '1-0',
     scorers: ['Vinícius Jr'],
+    neutral: true,
   },
   {
     id: 'm5',
@@ -114,6 +122,7 @@ export const matches: Match[] = [
     competition: 'Champions League',
     score: '1-0',
     scorers: ['Rodri'],
+    neutral: true,
   },
 
   // ── DIFÍCIL — conocidos pero exigen más memoria ────────────────────────────
@@ -127,6 +136,7 @@ export const matches: Match[] = [
     competition: 'Champions League',
     score: '4-1',
     scorers: ['Godín', 'Ramos', 'Bale', 'Marcelo', 'Ronaldo'],
+    neutral: true,
   },
   {
     id: 'h2',
@@ -138,6 +148,7 @@ export const matches: Match[] = [
     competition: 'Mundial',
     score: '7-1',
     scorers: ['Müller', 'Klose', 'Kroos', 'Kroos', 'Müller', 'Schürrle', 'Schürrle', 'Oscar'],
+    neutral: true,
   },
   {
     id: 'h3',
@@ -149,6 +160,7 @@ export const matches: Match[] = [
     competition: 'Champions League',
     score: '2-1',
     scorers: ['Basler', 'Sheringham', 'Solskjær'],
+    neutral: true,
   },
   {
     id: 'h4',
@@ -160,6 +172,7 @@ export const matches: Match[] = [
     competition: 'Copa Intercontinental',
     score: '2-1',
     scorers: ['Palermo', 'Palermo', 'Morientes'],
+    neutral: true,
   },
   {
     id: 'h5',
@@ -171,6 +184,7 @@ export const matches: Match[] = [
     competition: 'Champions League',
     score: '2-0',
     scorers: ['Milito', 'Milito'],
+    neutral: true,
   },
 
   // ── EXPERTO — para verdaderos cracks del fútbol ────────────────────────────
@@ -184,6 +198,7 @@ export const matches: Match[] = [
     competition: 'Champions League',
     score: '3-0',
     scorers: ['Carlos Alberto', 'Deco', 'Alenichev'],
+    neutral: true,
   },
   {
     id: 'x2',
@@ -195,6 +210,7 @@ export const matches: Match[] = [
     competition: 'Champions League',
     score: '3-1',
     scorers: ['Riedle', 'Riedle', 'Ricken', 'Del Piero'],
+    neutral: true,
   },
   {
     id: 'x3',
@@ -206,6 +222,7 @@ export const matches: Match[] = [
     competition: 'Champions League',
     score: '3-0',
     scorers: ['Morientes', 'McManaman', 'Raúl'],
+    neutral: true,
   },
   {
     id: 'x4',
@@ -217,6 +234,7 @@ export const matches: Match[] = [
     competition: 'Champions League',
     score: '1-1',
     scorers: ['Müller', 'Drogba'],
+    neutral: true,
   },
   {
     id: 'x5',
@@ -228,6 +246,7 @@ export const matches: Match[] = [
     competition: 'Copa Libertadores',
     score: '3-1',
     scorers: ['Pratto', 'Quintero', 'Palacios', 'Benedetto'],
+    neutral: true,
   },
 ]
 
@@ -235,9 +254,4 @@ export function getMatchesForLevel(difficulty: Difficulty, shuffle = true): Matc
   const pool = matches.filter((m) => m.difficulty === difficulty)
   if (!shuffle) return pool
   return [...pool].sort(() => Math.random() - 0.5)
-}
-
-export function getMatchesForDailyLevel(difficulty: Difficulty): Match[] {
-  // Orden fijo para el modo "partido del día" (misma secuencia cada día)
-  return matches.filter((m) => m.difficulty === difficulty)
 }

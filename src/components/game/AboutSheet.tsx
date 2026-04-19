@@ -82,8 +82,8 @@ export default function AboutSheet({ stats }: Props) {
                 </h3>
                 <div className="grid grid-cols-3 gap-2">
                   {[
-                    { label: 'Puntaje',   value: stats.totalScore.toLocaleString() },
-                    { label: 'Niveles',   value: stats.levelsPlayed },
+                    { label: 'Puntaje', value: stats.totalScore.toLocaleString() },
+                    { label: 'Niveles', value: stats.levelsPlayed },
                     { label: 'Perfectos', value: stats.levelsPerfect },
                   ].map(({ label, value }) => (
                     <div key={label} className="flex flex-col items-center gap-1 p-3
@@ -113,8 +113,8 @@ export default function AboutSheet({ stats }: Props) {
               </h3>
               <div className="flex flex-col gap-2">
                 {[
-                  { name: 'Gastón Mogul',  role: 'Idea & contenido' },
-                  { name: 'Perez Elías',   role: 'Diseño & desarrollo' },
+                  { name: 'Gastón Mogul', role: 'Idea & contenido' },
+                  { name: 'Perez Elías (Ogurazek)', role: 'Diseño & desarrollo' },
                 ].map(({ name, role }) => (
                   <div key={name} className="flex items-center justify-between py-2
                     border-b border-white/5 last:border-0">
@@ -130,7 +130,7 @@ export default function AboutSheet({ stats }: Props) {
           {/* Footer */}
           <div className="mt-auto px-6 py-4 border-t border-white/10">
             <p className="text-xs text-white/20 text-center">PuerroXGames · Boca Estilo ⚽</p>
-          <p className="text-xs text-white/15 text-center mt-1">Dedicada a Davo Xeneize 💙💛</p>
+            <p className="text-xs text-white/15 text-center mt-1">Dedicada a Davo Xeneize 💙💛</p>
           </div>
 
         </div>

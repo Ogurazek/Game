@@ -14,14 +14,23 @@ const FIELD_LABELS: Record<keyof GuessFields, string> = {
   competition: 'Competencia',
 }
 
+const FIELD_LABELS_NEUTRAL: Record<keyof GuessFields, string> = {
+  homeTeam: 'Equipo A',
+  awayTeam: 'Equipo B',
+  year: 'Año',
+  competition: 'Competencia',
+}
+
 interface Props {
   attempt: Attempt
   difficulty: Difficulty
   index: number
+  neutral?: boolean
 }
 
-export default function FeedbackRow({ attempt, difficulty, index }: Props) {
+export default function FeedbackRow({ attempt, difficulty, index, neutral = false }: Props) {
   const activeFields = FIELDS_BY_DIFFICULTY[difficulty]
+  const labels = neutral ? FIELD_LABELS_NEUTRAL : FIELD_LABELS
 
   return (
     <div className="flex items-center gap-2 w-full animate-in fade-in slide-in-from-top-2 duration-300">
@@ -43,7 +52,7 @@ export default function FeedbackRow({ attempt, difficulty, index }: Props) {
                 transition-all ${STATUS_STYLES[status]}`}
             >
               <span className="text-[10px] uppercase tracking-widest opacity-60">
-                {FIELD_LABELS[field]}
+                {labels[field]}
               </span>
               <span className="text-sm font-semibold truncate">
                 {value || '—'}

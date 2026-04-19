@@ -12,6 +12,7 @@ export interface Match {
   competition: string
   score: string       // "2-1"
   scorers: string[]
+  neutral?: boolean   // sin local/visitante (finales, mundiales, sede neutral)
 }
 
 export interface GuessFields {
@@ -74,10 +75,10 @@ export const FIELDS_BY_DIFFICULTY: Record<Difficulty, (keyof GuessFields)[]> = {
 }
 
 export const MAX_ATTEMPTS: Record<Difficulty, number> = {
-  easy:   6,
-  medium: 5,
-  hard:   4,
-  expert: 3,
+  easy:   4,
+  medium: 3,
+  hard:   2,
+  expert: 1,
 }
 
 export const BASE_SCORE: Record<Difficulty, number> = {

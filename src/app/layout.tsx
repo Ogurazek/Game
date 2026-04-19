@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Adivina el Partido",
+  title: "PuerroXGame",
   description: "Juego de fútbol: adiviná el partido a partir de las pistas",
 };
 

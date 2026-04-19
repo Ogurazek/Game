@@ -53,8 +53,6 @@ interface Props {
 }
 
 export default function DifficultySelector({ onStart, unlockedDifficulties }: Props) {
-  const [mode, setMode] = useState<GameMode>('random')
-
   return (
     <TooltipProvider>
       <div className="flex flex-col items-center gap-8 w-full max-w-xl mx-auto">
@@ -75,7 +73,8 @@ export default function DifficultySelector({ onStart, unlockedDifficulties }: Pr
           <p className="text-sm text-white/50 max-w-sm leading-relaxed">
             Te mostramos pistas de un partido histórico y vos tenés que adivinar
             los equipos, el año y la competencia. Cuanto más difícil el nivel,
-            menos pistas y menos intentos. (Creditos - Gastón Mogul)
+            menos pistas y menos intentos.<br />
+            (Creditos - Gastón Mogul)
           </p>
           <div className="flex items-center justify-center gap-4 mt-1 text-xs text-white/25">
             <span>Adiviná el local y el visitante</span>
@@ -84,20 +83,6 @@ export default function DifficultySelector({ onStart, unlockedDifficulties }: Pr
             <span>·</span>
             <span>Intentos limitados</span>
           </div>
-        </div>
-
-        {/* Modo de juego */}
-        <div className="flex gap-2 p-1 bg-white/5 rounded-xl border border-white/10">
-          {(['random', 'daily'] as GameMode[]).map((m) => (
-            <button
-              key={m}
-              onClick={() => setMode(m)}
-              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer ${mode === m ? 'bg-white text-black' : 'text-white/50 hover:text-white'
-                }`}
-            >
-              {m === 'random' ? '🎲 Aleatorio' : '📅 Partido del día'}
-            </button>
-          ))}
         </div>
 
         {/* Cards de dificultad */}
@@ -131,7 +116,7 @@ export default function DifficultySelector({ onStart, unlockedDifficulties }: Pr
               return (
                 <button
                   key={diff}
-                  onClick={() => onStart(diff, mode)}
+                  onClick={() => onStart(diff, 'random')}
                   className={`group flex flex-col gap-2 p-5 rounded-2xl border bg-white/[0.03]
                   transition-all duration-200 cursor-pointer hover:shadow-lg hover:-translate-y-0.5
                   ${cfg.border} ${cfg.glow}`}

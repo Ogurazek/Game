@@ -130,3 +130,18 @@
   background-position: center;
 }
 
+/* Scrollbar global */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(26, 79, 214, 0.5);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(26, 79, 214, 0.75);
+}
+
