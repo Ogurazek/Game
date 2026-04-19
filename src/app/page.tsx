@@ -193,30 +193,40 @@ export default function Home() {
 
   // ── EXPERT CHAMPION ───────────────────────────────────────────────────────
   if (status === 'level_done' && difficulty === 'expert') {
-    const won   = matchResults.filter((r) => r.won).length
-    const total = matchResults.reduce((acc, r) => acc + r.score, 0)
+    const won    = matchResults.filter((r) => r.won).length
+    const total  = matchResults.reduce((acc, r) => acc + r.score, 0)
+    const zeroed = won === 0
 
     return (
       <Background stats={stats}>
         <div className="flex flex-col gap-5 w-full max-w-md">
 
           {/* Hero */}
-          <div className="relative text-center p-8 rounded-3xl border border-yellow-400/40
-            bg-gradient-to-b from-yellow-400/10 to-blue-500/10 overflow-hidden">
+          <div className={`relative text-center p-8 rounded-3xl border overflow-hidden
+            ${zeroed
+              ? 'border-red-500/40 bg-gradient-to-b from-red-500/10 to-red-900/10'
+              : 'border-yellow-400/40 bg-gradient-to-b from-yellow-400/10 to-blue-500/10'}`}>
             <div
               className="pointer-events-none absolute inset-0 opacity-[0.06]"
               style={{
-                backgroundImage: 'radial-gradient(circle, #f5a800 1px, transparent 1px)',
+                backgroundImage: `radial-gradient(circle, ${zeroed ? '#ef4444' : '#f5a800'} 1px, transparent 1px)`,
                 backgroundSize: '20px 20px',
               }}
             />
-            <div className="text-7xl mb-4">🏆</div>
-            <h1 className="text-5xl font-black tracking-tight text-yellow-400 drop-shadow-lg">
-              CAMPEÓN
+            <div className="text-7xl mb-4">{zeroed ? '💀' : '🏆'}</div>
+            <h1 className={`text-5xl font-black tracking-tight drop-shadow-lg
+              ${zeroed ? 'text-red-400' : 'text-yellow-400'}`}>
+              {zeroed ? 'ELIMINADO' : 'CAMPEÓN'}
             </h1>
-            <p className="mt-2 text-sm text-yellow-400/60 uppercase tracking-widest font-semibold">
-              Nivel Experto completado
+            <p className={`mt-2 text-sm uppercase tracking-widest font-semibold
+              ${zeroed ? 'text-red-400/60' : 'text-yellow-400/60'}`}>
+              {zeroed ? 'No adivinaste ninguno en Experto' : 'Nivel Experto completado'}
             </p>
+            {zeroed && (
+              <p className="mt-2 text-xs text-red-400/40">
+                Seguí entrenando, ¡la próxima va!
+              </p>
+            )}
             <div className="mt-5 flex items-center justify-center gap-2">
               <span className="text-4xl font-black text-white">{total.toLocaleString()}</span>
               <span className="text-white/40 text-sm uppercase tracking-widest">pts</span>
@@ -260,8 +270,10 @@ export default function Home() {
             </button>
             <button
               onClick={() => startGame(currentDifficulty)}
-              className="flex-1 py-3 rounded-xl bg-yellow-400 text-black text-sm font-bold
-                hover:bg-yellow-300 transition-all cursor-pointer"
+              className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all cursor-pointer
+                ${zeroed
+                  ? 'bg-red-500 text-white hover:bg-red-400'
+                  : 'bg-yellow-400 text-black hover:bg-yellow-300'}`}
             >
               Jugar de nuevo
             </button>
@@ -277,6 +289,7 @@ export default function Home() {
     const won      = matchResults.filter((r) => r.won).length
     const total    = matchResults.reduce((acc, r) => acc + r.score, 0)
     const perfect  = won === MATCHES_PER_LEVEL
+    const zeroed   = won === 0
 
     const UNLOCKED_LABEL: Record<string, string> = {
       medium: 'Medio',
@@ -293,11 +306,21 @@ export default function Home() {
 
           {/* Header resultado */}
           <div className={`text-center p-7 rounded-3xl border
-            ${perfect ? 'bg-yellow-400/10 border-yellow-400/30' : 'bg-white/[0.04] border-white/10'}`}>
-            <div className="text-5xl mb-3">{perfect ? '🏆' : won >= 3 ? '🎯' : '💪'}</div>
-            <h2 className={`text-2xl font-black ${perfect ? 'text-yellow-400' : 'text-white'}`}>
-              {perfect ? '¡Nivel perfecto!' : `${won} de ${MATCHES_PER_LEVEL} adivinados`}
+            ${perfect ? 'bg-yellow-400/10 border-yellow-400/30'
+            : zeroed  ? 'bg-red-500/10 border-red-500/30'
+            : 'bg-white/[0.04] border-white/10'}`}>
+            <div className="text-5xl mb-3">
+              {perfect ? '🏆' : zeroed ? '💀' : won >= 3 ? '🎯' : '💪'}
+            </div>
+            <h2 className={`text-2xl font-black
+              ${perfect ? 'text-yellow-400' : zeroed ? 'text-red-400' : 'text-white'}`}>
+              {perfect ? '¡Nivel perfecto!' : zeroed ? '¡No adivinaste ninguno!' : `${won} de ${MATCHES_PER_LEVEL} adivinados`}
             </h2>
+            {zeroed && (
+              <p className="mt-2 text-sm text-red-400/60">
+                Seguí entrenando, ¡la próxima va!
+              </p>
+            )}
             <div className="mt-3 flex items-center justify-center gap-2">
               <span className="text-3xl font-black text-white">{total.toLocaleString()}</span>
               <span className="text-white/40 text-sm uppercase tracking-widest">pts</span>
