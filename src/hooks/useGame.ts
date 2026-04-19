@@ -14,6 +14,7 @@ import {
   MATCHES_PER_LEVEL,
   DIFFICULTY_ORDER,
   UNLOCK_THRESHOLD,
+  HINT_PENALTY,
   calcScore,
 } from '@/types/game'
 import { getMatchesForLevel } from '@/data/matches'
@@ -104,7 +105,7 @@ function saveStats(stats: PlayerStats) {
 
 const EMPTY_GUESS: GuessFields = { homeTeam: '', awayTeam: '', year: '', competition: '' }
 
-export type GameMode = 'random'
+export type GameMode = 'random' // kept for DifficultySelector prop compatibility
 export type GameStatus = 'idle' | 'playing' | 'between_matches' | 'level_done'
 
 interface GameState {
@@ -117,6 +118,7 @@ interface GameState {
   matchResults:        MatchResult[]
   status:              GameStatus
   newlyUnlocked:       Difficulty | null
+  hintsRevealed:       number
 }
 
 const INITIAL_STATE: GameState = {
@@ -129,6 +131,7 @@ const INITIAL_STATE: GameState = {
   matchResults:      [],
   status:            'idle',
   newlyUnlocked:     null,
+  hintsRevealed:     0,
 }
 
 // ─── Hook ─────────────────────────────────────────────────────────────────────
@@ -139,7 +142,7 @@ export function useGame() {
 
   useEffect(() => { setStats(loadStats()) }, [])
 
-  const startGame = useCallback((difficulty: Difficulty, mode: GameMode = 'random') => {
+  const startGame = useCallback((difficulty: Difficulty) => {
     const queue = getMatchesForLevel(difficulty, true)
 
     setState({
@@ -152,6 +155,7 @@ export function useGame() {
       matchResults:      [],
       status:            'playing',
       newlyUnlocked:     null,
+      hintsRevealed:     0,
     })
   }, [])
 
@@ -174,7 +178,8 @@ export function useGame() {
       const lost           = !won && newAttemptsLeft === 0
 
       if (won || lost) {
-        const earned = won ? calcScore(prev.difficulty, newAttempts.length) : 0
+        const hintPenalty = HINT_PENALTY[prev.difficulty] * prev.hintsRevealed
+        const earned = won ? Math.max(calcScore(prev.difficulty, newAttempts.length) - hintPenalty, 0) : 0
         const result: MatchResult = {
           match,
           won,
@@ -240,7 +245,15 @@ export function useGame() {
         attemptsLeft:      MAX_ATTEMPTS[prev.difficulty],
         currentGuess:      EMPTY_GUESS,
         status:            'playing',
+        hintsRevealed:     0,
       }
+    })
+  }, [])
+
+  const useHint = useCallback(() => {
+    setState((prev) => {
+      if (prev.hintsRevealed >= 2 || prev.status !== 'playing') return prev
+      return { ...prev, hintsRevealed: prev.hintsRevealed + 1 }
     })
   }, [])
 
@@ -266,6 +279,7 @@ export function useGame() {
     setGuessField,
     submitGuess,
     nextMatch,
+    useHint,
     resetGame,
     resetStats,
   }

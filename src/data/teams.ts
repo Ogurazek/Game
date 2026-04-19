@@ -76,11 +76,35 @@ export const TEAMS: string[] = [
   'Cruzeiro', 'Athletico Paranaense', 'Fortaleza', 'Ceará', 'Bahia',
 
   // Clubes uruguayos
-  'Peñarol', 'Nacional',
+  'Peñarol', 'Nacional', 'Danubio', 'Defensor Sporting',
+
+  // Clubes colombianos
+  'Atlético Nacional', 'Once Caldas', 'Deportivo Cali', 'Junior', 'Millonarios',
+  'América de Cali', 'Deportes Tolima', 'Independiente Medellín',
+
+  // Clubes ecuatorianos
+  'Emelec', 'Barcelona SC', 'LDU Quito', 'Liga de Quito', 'Independiente del Valle',
+  'Deportivo Cuenca', 'El Nacional',
+
+  // Clubes peruanos
+  'Sporting Cristal', 'Universitario', 'Alianza Lima', 'FBC Melgar',
+
+  // Clubes chilenos
+  'Colo-Colo', 'Universidad de Chile', 'Universidad Católica', 'O\'Higgins',
+  'Unión Española', 'Deportes Iquique', 'Palestino',
+
+  // Clubes venezolanos
+  'Caracas FC', 'Deportivo Táchira', 'Zamora FC',
+
+  // Clubes bolivianos
+  'Bolívar', 'The Strongest', 'Wilstermann', 'Blooming',
+
+  // Clubes paraguayos
+  'Olimpia', 'Cerro Porteño', 'Nacional (Paraguay)', 'Libertad', 'Guaraní',
 
   // Otros clubes europeos
   'Celtic', 'Rangers', 'Anderlecht', 'Club Brugge', 'Galatasaray', 'Fenerbahçe',
   'Beşiktaş', 'Shakhtar Donetsk', 'Dinamo Zagreb', 'Olympiakos', 'PAOK',
   'Red Bull Salzburgo', 'Sporting Lisboa', 'Estrella Roja', 'Steaua Bucarest',
-  'Spartak Moscú', 'CSKA Moscú', 'Zenit',
+  'Spartak Moscú', 'CSKA Moscú', 'Zenit', 'Málaga', 'PSG',
 ]

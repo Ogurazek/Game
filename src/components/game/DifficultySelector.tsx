@@ -1,8 +1,6 @@
 'use client'
 
 import { Difficulty, MAX_ATTEMPTS, UNLOCK_THRESHOLD, MATCHES_PER_LEVEL } from '@/types/game'
-import { GameMode } from '@/hooks/useGame'
-import { useState } from 'react'
 import Image from 'next/image'
 import { Lock } from 'lucide-react'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui/tooltip'
@@ -48,7 +46,7 @@ const PREV_LABEL: Partial<Record<Difficulty, string>> = {
 }
 
 interface Props {
-  onStart: (difficulty: Difficulty, mode: GameMode) => void
+  onStart: (difficulty: Difficulty) => void
   unlockedDifficulties: Difficulty[]
 }
 
@@ -116,7 +114,7 @@ export default function DifficultySelector({ onStart, unlockedDifficulties }: Pr
               return (
                 <button
                   key={diff}
-                  onClick={() => onStart(diff, 'random')}
+                  onClick={() => onStart(diff)}
                   className={`group flex flex-col gap-2 p-5 rounded-2xl border bg-white/[0.03]
                   transition-all duration-200 cursor-pointer hover:shadow-lg hover:-translate-y-0.5
                   ${cfg.border} ${cfg.glow}`}

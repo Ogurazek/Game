@@ -97,6 +97,13 @@ export const PENALTY_PER_ATTEMPT: Record<Difficulty, number> = {
 
 export const MATCHES_PER_LEVEL = 5
 
+export const HINT_PENALTY: Record<Difficulty, number> = {
+  easy:   0,
+  medium: 0,
+  hard:   75,
+  expert: 150,
+}
+
 export function calcScore(difficulty: Difficulty, attemptsUsed: number): number {
   const base = BASE_SCORE[difficulty]
   const penalty = PENALTY_PER_ATTEMPT[difficulty]

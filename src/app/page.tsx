@@ -9,7 +9,7 @@ import FeedbackRow from '@/components/game/FeedbackRow'
 import AttemptsCounter from '@/components/game/AttemptsCounter'
 import MatchProgress from '@/components/game/MatchProgress'
 import AboutSheet from '@/components/game/AboutSheet'
-import { MATCHES_PER_LEVEL } from '@/types/game'
+import { MATCHES_PER_LEVEL, HINT_PENALTY, DIFFICULTY_ORDER } from '@/types/game'
 
 const DIFFICULTY_LABEL = {
   easy: 'Fácil',
@@ -93,11 +93,13 @@ export default function Home() {
     matchResults,
     lastResult,
     newlyUnlocked,
+    hintsRevealed,
     stats,
     startGame,
     setGuessField,
     submitGuess,
     nextMatch,
+    useHint,
     resetGame,
   } = useGame()
 
@@ -189,6 +191,87 @@ export default function Home() {
     )
   }
 
+  // ── EXPERT CHAMPION ───────────────────────────────────────────────────────
+  if (status === 'level_done' && difficulty === 'expert') {
+    const won   = matchResults.filter((r) => r.won).length
+    const total = matchResults.reduce((acc, r) => acc + r.score, 0)
+
+    return (
+      <Background stats={stats}>
+        <div className="flex flex-col gap-5 w-full max-w-md">
+
+          {/* Hero */}
+          <div className="relative text-center p-8 rounded-3xl border border-yellow-400/40
+            bg-gradient-to-b from-yellow-400/10 to-blue-500/10 overflow-hidden">
+            <div
+              className="pointer-events-none absolute inset-0 opacity-[0.06]"
+              style={{
+                backgroundImage: 'radial-gradient(circle, #f5a800 1px, transparent 1px)',
+                backgroundSize: '20px 20px',
+              }}
+            />
+            <div className="text-7xl mb-4">🏆</div>
+            <h1 className="text-5xl font-black tracking-tight text-yellow-400 drop-shadow-lg">
+              CAMPEÓN
+            </h1>
+            <p className="mt-2 text-sm text-yellow-400/60 uppercase tracking-widest font-semibold">
+              Nivel Experto completado
+            </p>
+            <div className="mt-5 flex items-center justify-center gap-2">
+              <span className="text-4xl font-black text-white">{total.toLocaleString()}</span>
+              <span className="text-white/40 text-sm uppercase tracking-widest">pts</span>
+            </div>
+            <p className="mt-1 text-xs text-white/25">
+              {won} de {MATCHES_PER_LEVEL} adivinados · Total acumulado: {stats.totalScore.toLocaleString()} pts
+            </p>
+          </div>
+
+          {/* Dedicatoria */}
+          <div className="text-center py-3 px-4 rounded-2xl bg-blue-500/10 border border-blue-500/20">
+            <p className="text-sm text-blue-300/70 italic">💙💛 Dedicada a Davo Xeneize</p>
+          </div>
+
+          {/* Resumen */}
+          <div className="flex flex-col gap-2">
+            <span className="text-xs font-semibold uppercase tracking-widest text-white/30">Resumen</span>
+            {matchResults.map((r, i) => (
+              <div key={i} className={`flex items-center gap-3 p-3 rounded-xl border
+                ${r.won ? 'border-green-500/20 bg-green-500/5' : 'border-red-500/20 bg-red-500/5'}`}>
+                <span className="text-lg">{r.won ? '✅' : '❌'}</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-white truncate">
+                    {r.match.homeTeam} {r.match.score} {r.match.awayTeam}
+                  </p>
+                  <p className="text-xs text-white/30">{r.match.competition} · {r.match.year}</p>
+                </div>
+                {r.won && <span className="text-xs font-bold text-yellow-400 shrink-0">+{r.score}</span>}
+              </div>
+            ))}
+          </div>
+
+          {/* Botones */}
+          <div className="flex gap-3">
+            <button
+              onClick={resetGame}
+              className="flex-1 py-3 rounded-xl border border-white/10 text-white/50
+                hover:bg-white/5 text-sm font-semibold transition-all cursor-pointer"
+            >
+              Cambiar nivel
+            </button>
+            <button
+              onClick={() => startGame(currentDifficulty)}
+              className="flex-1 py-3 rounded-xl bg-yellow-400 text-black text-sm font-bold
+                hover:bg-yellow-300 transition-all cursor-pointer"
+            >
+              Jugar de nuevo
+            </button>
+          </div>
+
+        </div>
+      </Background>
+    )
+  }
+
   // ── LEVEL DONE ────────────────────────────────────────────────────────────
   if (status === 'level_done') {
     const won      = matchResults.filter((r) => r.won).length
@@ -200,6 +283,9 @@ export default function Home() {
       hard:   'Difícil',
       expert: 'Experto',
     }
+
+    const nextDiff = DIFFICULTY_ORDER[DIFFICULTY_ORDER.indexOf(currentDifficulty) + 1] as Difficulty | undefined
+    const canGoNext = nextDiff && stats.unlockedDifficulties.includes(nextDiff)
 
     return (
       <Background stats={stats}>
@@ -267,13 +353,23 @@ export default function Home() {
             >
               Cambiar nivel
             </button>
-            <button
-              onClick={() => startGame(currentDifficulty, 'random')}
-              className="flex-1 py-3 rounded-xl bg-white text-black text-sm font-bold
-                hover:bg-white/90 transition-all cursor-pointer"
-            >
-              Jugar de nuevo
-            </button>
+            {canGoNext ? (
+              <button
+                onClick={() => startGame(nextDiff!)}
+                className="flex-1 py-3 rounded-xl bg-white text-black text-sm font-bold
+                  hover:bg-white/90 transition-all cursor-pointer"
+              >
+                Siguiente nivel →
+              </button>
+            ) : (
+              <button
+                onClick={() => startGame(currentDifficulty)}
+                className="flex-1 py-3 rounded-xl bg-white text-black text-sm font-bold
+                  hover:bg-white/90 transition-all cursor-pointer"
+              >
+                Jugar de nuevo
+              </button>
+            )}
           </div>
 
         </div>
@@ -305,7 +401,25 @@ export default function Home() {
           currentMatchIndex={currentMatchIndex}
         />
 
-        <ClueDisplay match={match} difficulty={currentDifficulty} />
+        <ClueDisplay match={match} difficulty={currentDifficulty} hintsRevealed={hintsRevealed} />
+
+        {/* Botón de pista — solo en hard/expert */}
+        {(currentDifficulty === 'hard' || currentDifficulty === 'expert') && (
+          <button
+            onClick={useHint}
+            disabled={hintsRevealed >= 2}
+            className={`w-full py-2.5 rounded-xl text-sm font-semibold border transition-all cursor-pointer
+              ${hintsRevealed >= 2
+                ? 'border-white/5 text-white/20 cursor-not-allowed'
+                : 'border-orange-500/30 text-orange-400/70 hover:bg-orange-500/10 hover:text-orange-400'
+              }`}
+          >
+            {hintsRevealed >= 2
+              ? 'Sin pistas disponibles'
+              : `💡 Ver pista (−${HINT_PENALTY[currentDifficulty]} pts)`}
+          </button>
+        )}
+
         <AttemptsCounter difficulty={currentDifficulty} attemptsLeft={attemptsLeft} />
 
         {attempts.length > 0 && (
