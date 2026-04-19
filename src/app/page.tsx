@@ -9,7 +9,7 @@ import FeedbackRow from '@/components/game/FeedbackRow'
 import AttemptsCounter from '@/components/game/AttemptsCounter'
 import MatchProgress from '@/components/game/MatchProgress'
 import AboutSheet from '@/components/game/AboutSheet'
-import { MATCHES_PER_LEVEL, HINT_PENALTY, DIFFICULTY_ORDER } from '@/types/game'
+import { MATCHES_PER_LEVEL, HINT_PENALTY, DIFFICULTY_ORDER, Difficulty } from '@/types/game'
 
 const DIFFICULTY_LABEL = {
   easy: 'Fácil',
