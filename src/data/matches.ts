@@ -82,7 +82,7 @@ export const matches: Match[] = [
     year: 2018,
     competition: 'Copa Libertadores',
     score: '2-0',
-    scorers: ['Ábila', 'Benedetto'],
+    scorers: ['Benedetto', 'Benedetto'],
   },
   {
     id: 'm15',
