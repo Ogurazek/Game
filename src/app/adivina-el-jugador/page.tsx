@@ -1,7 +1,6 @@
 'use client'
 
 import { useMemo } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
 import { usePlayerGame } from '@/hooks/usePlayerGame'
 import PlayerClues from '@/components/player-game/PlayerClues'
@@ -24,12 +23,6 @@ const DIFFICULTY_LABEL: Record<string, string> = {
   easy: 'Fácil', medium: 'Medio', hard: 'Difícil', expert: 'Experto',
 }
 
-const DIFFICULTY_COLORS: Record<string, string> = {
-  easy: 'bg-green-500/10  border-green-500/30  text-green-400',
-  medium: 'bg-blue-500/10   border-blue-500/30   text-blue-400',
-  hard: 'bg-orange-500/10 border-orange-500/30 text-orange-400',
-  expert: 'bg-red-500/10    border-red-500/30    text-red-400',
-}
 
 function Background({ children }: { children: React.ReactNode }) {
   return (
@@ -91,9 +84,9 @@ function Background({ children }: { children: React.ReactNode }) {
 
 const DIFFICULTY_CONFIG: Record<Difficulty, { label: string; color: string; border: string; glow: string; description: string }> = {
   easy: { label: 'Fácil', color: 'text-green-400', border: 'border-green-400/30 hover:border-green-400/80', glow: 'hover:shadow-green-400/20', description: 'Nac. · Pos. · Equipo · Liga · Edad · Goles' },
-  medium: { label: 'Medio', color: 'text-yellow-400', border: 'border-yellow-400/30 hover:border-yellow-400/80', glow: 'hover:shadow-yellow-400/20', description: 'Nac. · Pos. · Liga · Edad · Goles' },
-  hard: { label: 'Difícil', color: 'text-orange-400', border: 'border-orange-400/30 hover:border-orange-400/80', glow: 'hover:shadow-orange-400/20', description: 'Nac. · Pos. · Edad · Goles' },
-  expert: { label: 'Experto', color: 'text-red-400', border: 'border-red-400/30 hover:border-red-400/80', glow: 'hover:shadow-red-400/20', description: 'Nac. · Pos. · Goles' },
+  medium: { label: 'Medio', color: 'text-yellow-400', border: 'border-yellow-400/30 hover:border-yellow-400/80', glow: 'hover:shadow-yellow-400/20', description: 'Nac. · Pos. · Equipo · Liga · Goles' },
+  hard: { label: 'Difícil', color: 'text-orange-400', border: 'border-orange-400/30 hover:border-orange-400/80', glow: 'hover:shadow-orange-400/20', description: 'Nac. · Pos. · Equipo · Goles' },
+  expert: { label: 'Experto', color: 'text-red-400', border: 'border-red-400/30 hover:border-red-400/80', glow: 'hover:shadow-red-400/20', description: 'Nac. · Pos. · Liga · Goles' },
 }
 
 const PREV_LABEL: Partial<Record<Difficulty, string>> = {
@@ -215,7 +208,7 @@ export default function AdivinaElJugador() {
   } = usePlayerGame()
 
   const guessedIds = attempts.map((a) => a.player.id)
-  const winGif = useMemo(() => WIN_GIFS[Math.floor(Math.random() * WIN_GIFS.length)], [lastResult])
+  const winGif = useMemo(() => WIN_GIFS[Math.floor(Math.random() * WIN_GIFS.length)], [playerResults.length])
 
   // ── IDLE ──────────────────────────────────────────────────────────────────
   if (status === 'idle') {
@@ -421,12 +414,24 @@ export default function AdivinaElJugador() {
         <PlayerClues target={currentTarget} difficulty={currentDifficulty} hintsRevealed={hintsRevealed} onUseHint={useHint} />
 
         {/* Intentos */}
-        <div className="flex items-center justify-between px-1">
-          <span className="text-xs text-white/30">Intentos restantes</span>
-          <div className="flex gap-1">
-            {Array.from({ length: MAX_ATTEMPTS[currentDifficulty] }).map((_, i) => (
-              <div key={i} className={`w-2 h-2 rounded-full ${i < attemptsLeft ? 'bg-white/60' : 'bg-white/10'}`} />
-            ))}
+        <div className="flex flex-col gap-2 w-full">
+          <div className="flex items-center justify-between text-xs text-white/30">
+            <span>Intentos</span>
+            <span className={attemptsLeft <= 1 ? 'text-red-400 font-bold' : ''}>
+              {attemptsLeft} restante{attemptsLeft !== 1 ? 's' : ''}
+            </span>
+          </div>
+          <div className="flex gap-1.5">
+            {Array.from({ length: MAX_ATTEMPTS[currentDifficulty] }).map((_, i) => {
+              const used = MAX_ATTEMPTS[currentDifficulty] - attemptsLeft
+              const isUsed = i < used
+              const isLast = attemptsLeft === 1 && i === used
+              return (
+                <div key={i} className={`flex-1 h-2 rounded-full transition-all duration-300 ${
+                  isUsed ? 'bg-red-500/70' : isLast ? 'bg-yellow-400 animate-pulse' : 'bg-white/15'
+                }`} />
+              )
+            })}
           </div>
         </div>
 

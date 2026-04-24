@@ -9,7 +9,6 @@ import FeedbackRow from '@/components/game/FeedbackRow'
 import AttemptsCounter from '@/components/game/AttemptsCounter'
 import MatchProgress from '@/components/game/MatchProgress'
 import AboutSheet from '@/components/game/AboutSheet'
-import Link from 'next/link'
 import { MATCHES_PER_LEVEL, HINT_PENALTY, DIFFICULTY_ORDER, Difficulty } from '@/types/game'
 
 const DIFFICULTY_LABEL = {

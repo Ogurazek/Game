@@ -9,6 +9,7 @@ export interface Player {
   position: Position
   team: string
   league: string
+  pastTeam: string
   age: number
   careerGoals: number
   careerAssists: number
@@ -52,9 +53,9 @@ export const UNLOCK_THRESHOLD = 3
 export const PLAYERS_PER_LEVEL = 5
 
 export const MAX_ATTEMPTS: Record<Difficulty, number> = {
-  easy:   8,
-  medium: 6,
-  hard:   4,
+  easy:   3,
+  medium: 3,
+  hard:   3,
   expert: 3,
 }
 
@@ -70,9 +71,9 @@ export const CLUES_BY_DIFFICULTY: Record<Difficulty, {
   showGoals:      boolean
 }> = {
   easy:   { showNationality: true,  showPosition: true, showTeam: true,  showLeague: true,  showAge: true,  showGoals: true  },
-  medium: { showNationality: true,  showPosition: true, showTeam: false, showLeague: true,  showAge: true,  showGoals: true  },
-  hard:   { showNationality: true,  showPosition: true, showTeam: false, showLeague: false, showAge: true,  showGoals: true  },
-  expert: { showNationality: true,  showPosition: true, showTeam: false, showLeague: false, showAge: false, showGoals: true  },
+  medium: { showNationality: true,  showPosition: true, showTeam: true,  showLeague: true,  showAge: false, showGoals: true  },
+  hard:   { showNationality: true,  showPosition: true, showTeam: true,  showLeague: false, showAge: false, showGoals: true  },
+  expert: { showNationality: true,  showPosition: true, showTeam: false, showLeague: true,  showAge: false, showGoals: true  },
 }
 
 export function calcScore(_difficulty: Difficulty, attemptsUsed: number, hintsUsed = 0): number {

@@ -67,7 +67,7 @@ export default function PlayerClues({ target, difficulty, hintsRevealed = [], on
       </div>
 
       <div className="flex gap-2">
-        {renderAttr('team', c.showTeam, 'Equipo (Actual)', target.team)}
+        {renderAttr('team', c.showTeam, 'Jugó en o juega en', target.pastTeam)}
         {renderAttr('league', c.showLeague, 'Liga (Actual)', target.league)}
       </div>
 
