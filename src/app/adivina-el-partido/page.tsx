@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { Trophy, Skull, Target, Dumbbell, LockOpen, CheckCircle2, XCircle } from 'lucide-react'
 import { useGame } from '@/hooks/useGame'
 import DifficultySelector from '@/components/game/DifficultySelector'
 import ClueDisplay from '@/components/game/ClueDisplay'
@@ -211,7 +212,11 @@ export default function PuerroXGame() {
 
           <div className={`flex flex-col items-center gap-2 p-6 rounded-3xl border text-center
             ${lastResult.won ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'}`}>
-            <span className="text-4xl">{lastResult.won ? '✅' : '❌'}</span>
+            <div className="flex justify-center">
+              {lastResult.won
+                ? <CheckCircle2 size={40} className="text-green-400" />
+                : <XCircle size={40} className="text-red-400" />}
+            </div>
             <p className={`text-lg font-black ${lastResult.won ? 'text-green-400' : 'text-red-400'}`}>
               {lastResult.won ? '¡Correcto!' : 'No fue...'}
             </p>
@@ -272,7 +277,9 @@ export default function PuerroXGame() {
                 backgroundSize: '20px 20px',
               }}
             />
-            <div className="text-7xl mb-4">{zeroed ? '💀' : '🏆'}</div>
+            <div className="flex justify-center mb-4">
+              {zeroed ? <Skull size={72} className="text-red-400" /> : <Trophy size={72} className="text-yellow-400" />}
+            </div>
             <h1 className={`text-5xl font-black tracking-tight drop-shadow-lg
               ${zeroed ? 'text-red-400' : 'text-yellow-400'}`}>
               {zeroed ? 'ELIMINADO' : 'CAMPEÓN'}
@@ -304,7 +311,9 @@ export default function PuerroXGame() {
             {matchResults.map((r, i) => (
               <div key={i} className={`flex items-center gap-3 p-3 rounded-xl border
                 ${r.won ? 'border-green-500/20 bg-green-500/5' : 'border-red-500/20 bg-red-500/5'}`}>
-                <span className="text-lg">{r.won ? '✅' : '❌'}</span>
+                {r.won
+                  ? <CheckCircle2 size={18} className="text-green-400 shrink-0" />
+                  : <XCircle size={18} className="text-red-400 shrink-0" />}
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-white truncate">
                     {r.match.homeTeam} {r.match.score} {r.match.awayTeam}
@@ -364,8 +373,11 @@ export default function PuerroXGame() {
             ${perfect ? 'bg-yellow-400/10 border-yellow-400/30'
               : zeroed ? 'bg-red-500/10 border-red-500/30'
                 : 'bg-white/[0.04] border-white/10'}`}>
-            <div className="text-5xl mb-3">
-              {perfect ? '🏆' : zeroed ? '💀' : won >= 3 ? '🎯' : '💪'}
+            <div className="flex justify-center mb-3">
+              {perfect ? <Trophy size={52} className="text-yellow-400" />
+                : zeroed ? <Skull size={52} className="text-red-400" />
+                : won >= 3 ? <Target size={52} className="text-white/70" />
+                : <Dumbbell size={52} className="text-white/70" />}
             </div>
             <h2 className={`text-2xl font-black
               ${perfect ? 'text-yellow-400' : zeroed ? 'text-red-400' : 'text-white'}`}>
@@ -387,7 +399,7 @@ export default function PuerroXGame() {
 
           {newlyUnlocked && (
             <div className="flex items-center gap-3 p-4 rounded-2xl bg-yellow-400/10 border border-yellow-400/30">
-              <span className="text-2xl">🔓</span>
+              <LockOpen size={22} className="text-yellow-400 shrink-0" />
               <div>
                 <p className="text-sm font-bold text-yellow-400">
                   ¡Nivel {UNLOCKED_LABEL[newlyUnlocked]} desbloqueado!
@@ -406,7 +418,9 @@ export default function PuerroXGame() {
             {matchResults.map((r, i) => (
               <div key={i} className={`flex items-center gap-3 p-3 rounded-xl border
                 ${r.won ? 'border-green-500/20 bg-green-500/5' : 'border-red-500/20 bg-red-500/5'}`}>
-                <span className="text-lg">{r.won ? '✅' : '❌'}</span>
+                {r.won
+                  ? <CheckCircle2 size={18} className="text-green-400 shrink-0" />
+                  : <XCircle size={18} className="text-red-400 shrink-0" />}
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-white truncate">
                     {r.match.homeTeam} {r.match.score} {r.match.awayTeam}

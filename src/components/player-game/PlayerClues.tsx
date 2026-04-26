@@ -57,13 +57,18 @@ export default function PlayerClues({ target, difficulty, hintsRevealed = [], on
 
       <BigClue label="Posición" value={target.position} />
       <div className="flex gap-2">
-        <BigClue label="Goles en carrera" value={String(target.careerGoals)} />
-        <BigClue label="Asistencias en carrera" value={String(target.careerAssists)} />
+        <BigClue label="Goles en carrera" value={`+${target.careerGoals}`} />
+        <BigClue label="Asistencias en carrera" value={`+${target.careerAssists}`} />
       </div>
+
+      {target.funFact && (
+        <div className="flex gap-2">
+          {renderAttr('funFact', c.showFunFact, 'Dato', target.funFact)}
+        </div>
+      )}
 
       <div className="flex gap-2">
         {renderAttr('nationality', c.showNationality, 'Nacionalidad', target.nationality)}
-        {renderAttr('age', c.showAge, 'Edad', `${target.age} años`)}
       </div>
 
       <div className="flex gap-2">

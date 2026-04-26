@@ -7,7 +7,6 @@ import {
   PlayerAttempt,
   PlayerResult,
   PlayerGameStats,
-  AttemptFeedback,
   DIFFICULTY_ORDER,
   PLAYERS_PER_LEVEL,
   MAX_ATTEMPTS,
@@ -43,46 +42,6 @@ function loadStats(): PlayerGameStats {
 function saveStats(stats: PlayerGameStats) {
   if (typeof window === 'undefined') return
   localStorage.setItem(STATS_KEY, JSON.stringify(stats))
-}
-
-// ─── Feedback ─────────────────────────────────────────────────────────────────
-
-function computeFeedback(guess: Player, target: Player): AttemptFeedback {
-  const ageDir = guess.age === target.age ? 'correct'
-    : guess.age < target.age ? 'higher'
-    : 'lower'
-
-  const goalsDiff = Math.abs(guess.careerGoals - target.careerGoals)
-  const goalsDir = goalsDiff <= 25 ? 'correct'
-    : guess.careerGoals < target.careerGoals ? 'higher'
-    : 'lower'
-
-  const assistsDiff = Math.abs(guess.careerAssists - target.careerAssists)
-  const assistsDir = assistsDiff <= 15 ? 'correct'
-    : guess.careerAssists < target.careerAssists ? 'higher'
-    : 'lower'
-
-  return {
-    nationality:   guess.nationality === target.nationality ? 'correct' : 'incorrect',
-    position:      guess.position    === target.position    ? 'correct' : 'incorrect',
-    team:          guess.team        === target.team        ? 'correct' : 'incorrect',
-    league:        guess.league      === target.league      ? 'correct' : 'incorrect',
-    age:           ageDir,
-    careerGoals:   goalsDir,
-    careerAssists: assistsDir,
-  }
-}
-
-function isWin(feedback: AttemptFeedback): boolean {
-  return (
-    feedback.nationality   === 'correct' &&
-    feedback.position      === 'correct' &&
-    feedback.team          === 'correct' &&
-    feedback.league        === 'correct' &&
-    feedback.age           === 'correct' &&
-    feedback.careerGoals   === 'correct' &&
-    feedback.careerAssists === 'correct'
-  )
 }
 
 // ─── Estado ───────────────────────────────────────────────────────────────────
@@ -141,9 +100,8 @@ export function usePlayerGame() {
       if (!prev.difficulty || prev.status !== 'playing') return prev
 
       const target   = prev.playerQueue[prev.currentPlayerIndex]
-      const feedback = computeFeedback(guessedPlayer, target)
-      const won      = isWin(feedback)
-      const newAttempts     = [...prev.attempts, { player: guessedPlayer, feedback }]
+      const won      = guessedPlayer.id === target.id
+      const newAttempts     = [...prev.attempts, { player: guessedPlayer, isCorrect: won }]
       const newAttemptsLeft = prev.attemptsLeft - 1
       const lost     = !won && newAttemptsLeft === 0
 

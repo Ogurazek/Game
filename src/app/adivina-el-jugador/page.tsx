@@ -8,7 +8,7 @@ import PlayerFeedbackRow from '@/components/player-game/PlayerFeedbackRow'
 import PlayerAutocomplete from '@/components/player-game/PlayerAutocomplete'
 import AboutSheet from '@/components/game/AboutSheet'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui/tooltip'
-import { Lock } from 'lucide-react'
+import { Lock, Trophy, Skull, Target, Dumbbell, LockOpen, CheckCircle2, XCircle } from 'lucide-react'
 import { PLAYERS_PER_LEVEL, DIFFICULTY_ORDER, Difficulty, MAX_ATTEMPTS, UNLOCK_THRESHOLD } from '@/types/player-game'
 
 const WIN_GIFS = [
@@ -322,7 +322,9 @@ export default function AdivinaElJugador() {
                 : 'bg-white/[0.04] border-white/10'}`}>
             {perfect
               ? <Image src="/gifs/lacobra.gif" alt="¡Campeón!" width={200} height={200} className="rounded-2xl mx-auto mb-3" unoptimized />
-              : <div className="text-5xl mb-3">{zeroed ? '💀' : won >= 3 ? '🎯' : '💪'}</div>
+              : <div className="flex justify-center mb-3">
+                  {zeroed ? <Skull size={52} className="text-red-400" /> : won >= 3 ? <Target size={52} className="text-white/70" /> : <Dumbbell size={52} className="text-white/70" />}
+                </div>
             }
             <h2 className={`text-2xl font-black ${perfect ? 'text-yellow-400' : zeroed ? 'text-red-400' : 'text-white'}`}>
               {perfect ? '¡Nivel perfecto!' : zeroed ? '¡No adivinaste ninguno!' : `${won} de ${PLAYERS_PER_LEVEL} adivinados`}
@@ -336,7 +338,7 @@ export default function AdivinaElJugador() {
 
           {newlyUnlocked && (
             <div className="flex items-center gap-3 p-4 rounded-2xl bg-yellow-400/10 border border-yellow-400/30">
-              <span className="text-2xl">🔓</span>
+              <LockOpen size={22} className="text-yellow-400 shrink-0" />
               <div>
                 <p className="text-sm font-bold text-yellow-400">¡Nivel {UNLOCKED_LABEL[newlyUnlocked]} desbloqueado!</p>
                 <p className="text-xs text-yellow-400/50">Ya podés jugar el siguiente nivel de dificultad</p>
@@ -349,7 +351,9 @@ export default function AdivinaElJugador() {
             {playerResults.map((r, i) => (
               <div key={i} className={`flex items-center gap-3 p-3 rounded-xl border
                 ${r.won ? 'border-green-500/20 bg-green-500/5' : 'border-red-500/20 bg-red-500/5'}`}>
-                <span className="text-lg">{r.won ? '✅' : '❌'}</span>
+                {r.won
+                  ? <CheckCircle2 size={18} className="text-green-400 shrink-0" />
+                  : <XCircle size={18} className="text-red-400 shrink-0" />}
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-white truncate">{r.target.name}</p>
                   <p className="text-xs text-white/30">{r.target.nationality} · {r.target.team}</p>
@@ -359,23 +363,39 @@ export default function AdivinaElJugador() {
             ))}
           </div>
 
-          <div className="flex gap-3">
-            <button onClick={resetGame}
-              className="flex-1 py-3 rounded-xl border border-white/10 text-white/50 hover:bg-white/5 text-sm font-semibold transition-all cursor-pointer">
-              Cambiar nivel
-            </button>
-            {canGoNext ? (
-              <button onClick={() => startGame(nextDiff!)}
-                className="flex-1 py-3 rounded-xl bg-white text-black text-sm font-bold hover:bg-white/90 transition-all cursor-pointer">
-                Siguiente nivel →
+          {currentDifficulty === 'expert' ? (
+            <>
+              <div className="flex items-center gap-3 p-4 rounded-2xl bg-yellow-400/10 border border-yellow-400/30">
+                <Trophy size={22} className="text-yellow-400 shrink-0" />
+                <div>
+                  <p className="text-sm font-bold text-yellow-400">¡Completaste el juego al 100%!</p>
+                  <p className="text-xs text-yellow-400/50">Sos un crack del fútbol. No hay más niveles.</p>
+                </div>
+              </div>
+              <button onClick={resetGame}
+                className="w-full py-3 rounded-xl bg-white text-black text-sm font-bold hover:bg-white/90 transition-all cursor-pointer">
+                Volver al inicio
               </button>
-            ) : (
-              <button onClick={() => startGame(currentDifficulty)}
-                className="flex-1 py-3 rounded-xl bg-white text-black text-sm font-bold hover:bg-white/90 transition-all cursor-pointer">
-                Jugar de nuevo
+            </>
+          ) : (
+            <div className="flex gap-3">
+              <button onClick={resetGame}
+                className="flex-1 py-3 rounded-xl border border-white/10 text-white/50 hover:bg-white/5 text-sm font-semibold transition-all cursor-pointer">
+                Cambiar nivel
               </button>
-            )}
-          </div>
+              {canGoNext ? (
+                <button onClick={() => startGame(nextDiff!)}
+                  className="flex-1 py-3 rounded-xl bg-white text-black text-sm font-bold hover:bg-white/90 transition-all cursor-pointer">
+                  Siguiente nivel →
+                </button>
+              ) : (
+                <button onClick={() => startGame(currentDifficulty)}
+                  className="flex-1 py-3 rounded-xl bg-white text-black text-sm font-bold hover:bg-white/90 transition-all cursor-pointer">
+                  Jugar de nuevo
+                </button>
+              )}
+            </div>
+          )}
 
         </div>
       </Background>

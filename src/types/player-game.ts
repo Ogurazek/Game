@@ -10,28 +10,16 @@ export interface Player {
   team: string
   league: string
   pastTeam: string
-  age: number
+  funFact?: string
   careerGoals: number
   careerAssists: number
   isTarget?: boolean
   targetDifficulty?: Difficulty
 }
 
-export type ComparisonResult = 'correct' | 'higher' | 'lower' | 'incorrect'
-
-export interface AttemptFeedback {
-  nationality: 'correct' | 'incorrect'
-  position: 'correct' | 'incorrect'
-  team: 'correct' | 'incorrect'
-  league: 'correct' | 'incorrect'
-  age: ComparisonResult
-  careerGoals: ComparisonResult
-  careerAssists: ComparisonResult
-}
-
 export interface PlayerAttempt {
   player: Player
-  feedback: AttemptFeedback
+  isCorrect: boolean
 }
 
 export interface PlayerResult {
@@ -67,13 +55,13 @@ export const CLUES_BY_DIFFICULTY: Record<Difficulty, {
   showPosition:   boolean
   showTeam:       boolean
   showLeague:     boolean
-  showAge:        boolean
   showGoals:      boolean
+  showFunFact:    boolean
 }> = {
-  easy:   { showNationality: true,  showPosition: true, showTeam: true,  showLeague: true,  showAge: true,  showGoals: true  },
-  medium: { showNationality: true,  showPosition: true, showTeam: true,  showLeague: true,  showAge: false, showGoals: true  },
-  hard:   { showNationality: true,  showPosition: true, showTeam: true,  showLeague: false, showAge: false, showGoals: true  },
-  expert: { showNationality: true,  showPosition: true, showTeam: false, showLeague: true,  showAge: false, showGoals: true  },
+  easy:   { showNationality: true,  showPosition: true, showTeam: true,  showLeague: true,  showGoals: true, showFunFact: true  },
+  medium: { showNationality: true,  showPosition: true, showTeam: true,  showLeague: false, showGoals: true, showFunFact: true  },
+  hard:   { showNationality: true,  showPosition: true, showTeam: false, showLeague: false, showGoals: true, showFunFact: true  },
+  expert: { showNationality: false, showPosition: true, showTeam: false, showLeague: true,  showGoals: true, showFunFact: true  },
 }
 
 export function calcScore(_difficulty: Difficulty, attemptsUsed: number, hintsUsed = 0): number {
